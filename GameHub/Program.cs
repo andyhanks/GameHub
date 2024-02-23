@@ -1,3 +1,5 @@
+using GameHub.Controllers;
+using GameHub.Repositories;
 
 namespace GameHub
 {
@@ -10,6 +12,8 @@ namespace GameHub
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddTransient<IUserRepository, UserRepository>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -29,6 +33,8 @@ namespace GameHub
 
 
             app.MapControllers();
+
+                     
 
             app.Run();
         }

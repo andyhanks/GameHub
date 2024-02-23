@@ -10,6 +10,10 @@ namespace GameHub.Models
 
             [Required]
             [MaxLength(50)]
+            public string DisplayName { get; set; }
+
+            [Required]
+            [MaxLength(50)]
             public string FirstName { get; set; }
 
             [Required]
@@ -17,13 +21,15 @@ namespace GameHub.Models
             public string LastName { get; set; }
 
             [Required]
-            [MaxLength(50)]
-            public string DisplayName { get; set; }
-
-            [Required]
             [DataType(DataType.EmailAddress)]
             [MaxLength(255)]
             public string Email { get; set; }
+
+            public string Bio {  get; set; }
+            
+            public string PreferredGames { get; set; }
+
+            public bool Ready { get; set; }
 
             [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
             public DateTime CreateDateTime { get; set; }
@@ -34,9 +40,9 @@ namespace GameHub.Models
 
             [Required]
             public int UserTypeId { get; set; }
-            //public UserType? UserType { get; set; }
+            public UserType? UserType { get; set; }
 
-            public string FullName
+        public string FullName
             {
                 get
                 {
@@ -46,4 +52,4 @@ namespace GameHub.Models
         }
     
 }
-}
+
