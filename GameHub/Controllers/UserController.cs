@@ -21,5 +21,23 @@ namespace GameHub.Controllers
         {
             return Ok(_userRepository.GetAll());
         }
+
+        [HttpGet("GetByEmail")]
+        public IActionResult GetByEmail(string email)
+        {
+            var user = _userRepository.GetByEmail(email);
+
+            if (email == null || user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_userRepository.GetById(id));
+        }
     }
 }
