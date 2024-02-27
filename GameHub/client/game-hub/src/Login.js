@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { login } from "./apimanagers/UserManager"; 
 
 
-export default function login({setIsLoggedIn}) {
+export default function Login({setIsLoggedIn}) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState();

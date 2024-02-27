@@ -32,10 +32,24 @@ export const addUser = (singleUser) => {
   
 };
 export const getUserbyid = (id) => {
-  return fetch(`${apiUrl}/api/User/${id}`)
+  return fetch(`${baseUrl}/api/User/${id}`)
     .then((r) => r.json());
 }
 
 export const logout = () => {
       localStorage.clear()
+};
+
+export const register = (userObject, password) => {
+  return  fetch(`${baseUrl}/api/User`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userObject),
+  })
+  .then((response) => response.json())
+    .then((savedUserProfile) => {
+      localStorage.setItem("userProfile", JSON.stringify(savedUserProfile))
+    });
 };
