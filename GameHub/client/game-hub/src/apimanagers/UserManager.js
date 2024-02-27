@@ -1,9 +1,9 @@
 import React from "react";
 
-const baseUrl = '/api/User';
+const baseUrl = 'https://localhost:5001';
 
 export const login = (userObject) => {
-  return fetch(`${baseUrl}/api/User/getbyemail?email=${userObject.email}`)
+  return fetch(`${baseUrl}/api/User/GetByEmail?email=${userObject.email}`)
   .then((r) => r.json())
     .then((userProfile) => {
       if(userProfile.id){
@@ -17,7 +17,7 @@ export const login = (userObject) => {
 };
 
 export const getAllUsers = () => {
-  return fetch(baseUrl) 
+  return fetch(`${baseUrl}/api/User`) 
     .then((res) => res.json())
 };
 

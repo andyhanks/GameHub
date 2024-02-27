@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 // import UserProfileDetails from "./UserProfiles/UserProfileDetails";
 import Hello from "./components/Hello";
 import UserList from "./components/UserList";
+import Login from "./Login";
 
 
 
@@ -14,6 +15,7 @@ export default function ApplicationViews() {
       <Routes>
       <Route path="/" element={<Hello/>}/>
         <Route path="/users" element={<UserList />} />
+        <Route path="/login" element={<Login/>}/>
         {/* <Route path="/users/:id" element={<UserProfileDetails />} /> */}
       </Routes>
     </>
