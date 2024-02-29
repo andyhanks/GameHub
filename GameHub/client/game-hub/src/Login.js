@@ -37,10 +37,10 @@ export default function Login({setIsLoggedIn}) {
           <Label for="email">Email</Label>
           <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
         </FormGroup>
-        <FormGroup>
+        {/* <FormGroup>
           <Label for="password">Password</Label>
           <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />
-        </FormGroup>
+        </FormGroup> */}
         <FormGroup>
           <Button>Login</Button>
         </FormGroup>
