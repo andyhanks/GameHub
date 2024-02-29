@@ -144,6 +144,37 @@ namespace GameHub.Repositories
             }
         }
 
+        public void Add(UserProfile userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO UserProfile (FirstName, LastName, DisplayName, 
+                                                                 Email, Bio, PreferredGames, CreateDateTime, ImageLocation, Ready, Password, UserTypeId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@FirstName, @LastName, @DisplayName, 
+                                                @Email, @Bio, @PreferredGames, @CreateDateTime, @ImageLocation, @Ready, @Password, @UserTypeId)";
+                    DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
+                    DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
+                    DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@Bio", userProfile.Bio);
+                    DbUtils.AddParameter(cmd, "@PreferredGames", userProfile.PreferredGames);
+                    DbUtils.AddParameter(cmd, "@CreateDateTime", userProfile.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", userProfile.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@Ready", userProfile.Ready);
+                    DbUtils.AddParameter(cmd, "@Password", userProfile.Password);
+
+                    DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+
+                    userProfile.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+
+
+        }
     }
 }
 

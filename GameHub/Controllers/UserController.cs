@@ -1,4 +1,5 @@
-﻿using GameHub.Repositories;
+﻿using GameHub.Models;
+using GameHub.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,18 @@ namespace GameHub.Controllers
         public IActionResult GetById(int id)
         {
             return Ok(_userRepository.GetById(id));
+        }
+
+        [HttpPost]
+        public IActionResult Post(UserProfile userProfile)
+        {
+            userProfile.CreateDateTime = DateTime.Now;
+            userProfile.UserTypeId = UserType.Player_ID;
+            _userRepository.Add(userProfile);
+            return CreatedAtAction(
+                "GetByEmail",
+                new { email = userProfile.Email },
+                userProfile);
         }
     }
 }

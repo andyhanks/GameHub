@@ -31,6 +31,8 @@ namespace GameHub.Models
 
             public bool Ready { get; set; }
 
+            public string Password { get; set; }
+
             [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
             public DateTime CreateDateTime { get; set; }
 
