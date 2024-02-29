@@ -102,6 +102,14 @@ namespace GameHub.Utils
             return !IsDbNull(reader, column);
         }
 
+        /// Get a boolean from a data reader object and gracefully handle NULL values
+        /// </summary>
+        public static bool? GetBool(SqlDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+            return reader.IsDBNull(ordinal) ? (bool?)null : reader.GetBoolean(ordinal);
+        }
+
         /// <summary>
         ///  Add a parameter to the given SqlCommand object and gracefully handle null values.
         /// </summary>

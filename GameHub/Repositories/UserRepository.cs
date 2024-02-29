@@ -166,7 +166,6 @@ namespace GameHub.Repositories
                     DbUtils.AddParameter(cmd, "@ImageLocation", userProfile.ImageLocation);
                     DbUtils.AddParameter(cmd, "@Ready", userProfile.Ready);
                     DbUtils.AddParameter(cmd, "@Password", userProfile.Password);
-
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
