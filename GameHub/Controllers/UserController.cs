@@ -2,6 +2,7 @@
 using GameHub.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace GameHub.Controllers
 {
@@ -52,5 +53,25 @@ namespace GameHub.Controllers
                 new { email = userProfile.Email },
                 userProfile);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, UserProfile user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            _userRepository.Update(user);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _userRepository.Delete(id);
+            return NoContent();
+        }
+
     }
 }

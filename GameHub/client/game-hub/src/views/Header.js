@@ -10,7 +10,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
-import { logout } from './apimanagers/UserManager';
+import { logout } from '../apimanagers/UserManager';
 
 export default function Header({ isLoggedIn, setIsLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,14 +29,11 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
-              </>
-            }
-          </Nav>
-          <Nav navbar>
-            {isLoggedIn &&
-              <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/users">User Manager</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/lobbies">Lobby Manager</NavLink>
                 </NavItem>
                 <NavItem>
                   <a aria-current="page" className="nav-link"
@@ -51,9 +48,6 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
               <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/login">Login</NavLink>
-                </NavItem>
-                <NavItem>
-                  {/* <NavLink tag={RRNavLink} to="/register">Register</NavLink> */}
                 </NavItem>
               </>
             }

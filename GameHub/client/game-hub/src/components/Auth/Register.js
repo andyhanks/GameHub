@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useNavigate } from "react-router-dom";
-import { register } from "./apimanagers/UserManager";
+import { register } from "../../apimanagers/UserManager";
 
 
 export default function Register({setIsLoggedIn}) {
@@ -14,6 +14,9 @@ export default function Register({setIsLoggedIn}) {
   const [bio, setBio] = useState("");
   const [imageLocation, setimageLocation] = useState("");
   const [preferredGames, setPreferredGames] = useState("");
+  const [ready, setReady] = useState(false);
+  const [createDateTime, setCreateDateTime] = useState(0);
+  const [userTypeId, setUserTypeId] = useState(0);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -24,7 +27,7 @@ export default function Register({setIsLoggedIn}) {
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Do better.");
     } else {
-      const userProfile = { firstName, lastName, displayName, email, password};
+      const userProfile = { firstName, lastName, displayName, email, password, bio, imageLocation, preferredGames, ready, createDateTime, userTypeId};
       register(userProfile, password)
         .then(() => {
           setIsLoggedIn(true)
@@ -72,12 +75,31 @@ export default function Register({setIsLoggedIn}) {
           <Label for="confirmPassword">Confirm Password</Label>
           <Input id="confirmPassword" type="password" onChange={e => setConfirmPassword(e.target.value)} />
         </FormGroup>
-        {/* <FormGroup check>
+        <FormGroup check>
               <Label check>
-                <Input type="checkbox" onChange={() => setUserType(!userType)} />{' '}
+                <Input type="checkbox" onChange={() => setUserTypeId(!userTypeId)} />{' '}
                 Admin
               </Label>
-        </FormGroup> */}
+        </FormGroup>
+        <FormGroup check>
+              <Label check>
+                <Input type="checkbox" onChange={() => setReady(!ready)} />{' '}
+                Ready
+              </Label>
+
+        </FormGroup>
+        <FormGroup>
+    <Label for="createDateTime">
+      Date
+    </Label>
+    <Input
+      id="createDate"
+      name="date"
+      placeholder="date placeholder"
+      type="date"
+      onChange={e => setCreateDateTime(e.target.value)}
+    />
+  </FormGroup>
         <FormGroup>
           <Button>Register</Button>
         </FormGroup>

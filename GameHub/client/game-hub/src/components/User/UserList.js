@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { User } from "./User";
-import { getAllUsers } from "../apimanagers/UserManager";
+import { getAllUsers } from "../../apimanagers/UserManager";
 
 
 

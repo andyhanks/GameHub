@@ -52,4 +52,16 @@ export const register = (userObject, password) => {
     .then((savedUserProfile) => {
       localStorage.setItem("userProfile", JSON.stringify(savedUserProfile))
     });
+    
 };
+
+export const updateUser = (user) =>{
+  return fetch(`${baseUrl}/api/User/${user.id}`, {
+    method: "PUT",
+    headers: {
+      body: JSON.stringify(user)
+    }
+  })
+}
+
+

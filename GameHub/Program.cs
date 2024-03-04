@@ -13,6 +13,7 @@ namespace GameHub
 
             builder.Services.AddControllers();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
+            builder.Services.AddTransient<ILobbyRepository, LobbyRepository>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

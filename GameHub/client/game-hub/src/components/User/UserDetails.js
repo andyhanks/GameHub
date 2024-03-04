@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom";
-import {getAllUsers, getUserbyid } from "../apimanagers/UserManager";
+import {getAllUsers, getUserbyid } from "../../apimanagers/UserManager";
 import { Card } from "reactstrap";
 
 export const UserDetails = () => {
