@@ -13,6 +13,7 @@ export const User = ({ user }) => {
      
         <div className="text-center">
         <Link to={`/users/${user.id}`}><button className="btn btn-primary">User Details</button></Link>
+        <Link to={`/users/update/${user.id}`}><button className="btn btn-primary">Update User</button></Link>
         </div>
       </CardBody>
     </Card>

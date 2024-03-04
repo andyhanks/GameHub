@@ -1,4 +1,5 @@
-﻿using GameHub.Models;
+﻿
+using GameHub.Models;
 using GameHub.Utils;
 
 
@@ -151,10 +152,10 @@ namespace GameHub.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO UserProfile (FirstName, LastName, DisplayName, 
+                    cmd.CommandText = @"INSERT INTO UserProfile (FirstName, LastName, DisplayName, Id,
                                                                  Email, Bio, PreferredGames, CreateDateTime, ImageLocation, Ready, Password, UserTypeId)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@FirstName, @LastName, @DisplayName, 
+                                        VALUES ( @Id, @FirstName, @LastName, @DisplayName, 
                                                 @Email, @Bio, @PreferredGames, @CreateDateTime, @ImageLocation, @Ready, @Password, @UserTypeId)";
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
@@ -167,8 +168,83 @@ namespace GameHub.Repositories
                     DbUtils.AddParameter(cmd, "@Ready", userProfile.Ready);
                     DbUtils.AddParameter(cmd, "@Password", userProfile.Password);
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+
+
+        }
+
+        public void Update(UserProfile userProfile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE  UserProfile
+                        SET
+                        FirstName = @firstName,
+                        LastName = @lastName,
+                        DisplayName = @displayName, 
+                        Email = @email, 
+                        Bio = @bio, 
+                        PreferredGames = @preferredGames, 
+                        CreateDateTime = @createDateTime, 
+                        ImageLocation = @imageLocation, 
+                        Ready = @ready, 
+                        UserTypeId = @userTypeId,
+                        [Password] = @password 
+                        Where Id = @id;    ";
+                    DbUtils.AddParameter(cmd, "@id", userProfile.Id);
+                    DbUtils.AddParameter(cmd, "@firstName", userProfile.FirstName);
+                    DbUtils.AddParameter(cmd, "@lastName", userProfile.LastName);
+                    DbUtils.AddParameter(cmd, "@displayName", userProfile.DisplayName);
+                    DbUtils.AddParameter(cmd, "@email", userProfile.Email);
+                    DbUtils.AddParameter(cmd, "@bio", userProfile.Bio);
+                    DbUtils.AddParameter(cmd, "@preferredGames", userProfile.PreferredGames);
+                    DbUtils.AddParameter(cmd, "@createDateTime", userProfile.CreateDateTime);
+                    DbUtils.AddParameter(cmd, "@imageLocation", userProfile.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@ready", userProfile.Ready);
+                    DbUtils.AddParameter(cmd, "@password", userProfile.Password);
+                    DbUtils.AddParameter(cmd, "@userTypeId", userProfile.UserTypeId);
+
+
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw;
+                    }
+                }
+            }
+        }
+
+
+        public void Delete(int userId)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = Connection.CreateCommand())
+                {
+                    try
+                    {
+                        cmd.CommandText = "DELETE FROM UserProfile WHERE Id = @id";
+                        DbUtils.AddParameter(cmd, "@id", userId);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error deleting user profile", ex);
+                    }
+
                 }
             }
 

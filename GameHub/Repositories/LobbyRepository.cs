@@ -3,7 +3,7 @@ using GameHub.Utils;
 
 namespace GameHub.Repositories
 {
-    public class LobbyRepository : BaseRepository
+    public class LobbyRepository : BaseRepository, ILobbyRepository
     {
         public LobbyRepository(IConfiguration configuration) : base(configuration) { }
         public List<Lobby> GetAll()
@@ -14,7 +14,7 @@ namespace GameHub.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                     select l.Id, Title, [Description], l.CreateDateTime, [Image], UsersOnline, IsOpen, UserId, [Platform], GameType, u.Id, DisplayName as 'CreatingUser'
+                     select l.Id, Title, [Description], l.CreateDateTime, [Image], UsersOnline, IsOpen, UserId, [Platform], GameType, u.Id, u.DisplayName as 'CreatingUser'
                         FROM Lobby l
                         LEFT JOIN UserProfile u
                         on l.UserId = u.Id
@@ -28,7 +28,7 @@ namespace GameHub.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Title = DbUtils.GetString(reader, "Title"),
-                            Description = DbUtils.GetString(reader, "[Description]"),
+                            Description = DbUtils.GetString(reader, "Description"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             Image = DbUtils.GetString(reader, "Image"),
                             UsersOnline = DbUtils.GetInt(reader, "UsersOnline"),
@@ -36,7 +36,7 @@ namespace GameHub.Repositories
                             UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
-                                DisplayName = DbUtils.GetString(reader, "Name"),
+                                DisplayName = DbUtils.GetString(reader,"CreatingUser"),
                             }
                         });
                     }
