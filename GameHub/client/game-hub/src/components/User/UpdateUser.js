@@ -1,7 +1,7 @@
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useNavigate } from "react-router-dom";
-import { updateUser } from "../../apimanagers/UserManager";
+import { getUserbyid, updateUser } from "../../apimanagers/UserManager";
 
 
 export default function UpdateUser() {
@@ -15,77 +15,84 @@ export default function UpdateUser() {
     imageLocation: "",
     preferredGames: "",
     ready: false,
-    createDateTime: Date.now(),
+    createDateTime: "",
     userTypeId: "",
     password: ""
   });
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
-  const [bio, setBio] = useState("");
-  const [imageLocation, setimageLocation] = useState("");
-  const [preferredGames, setPreferredGames] = useState("");
-  const [ready, setReady] = useState(false);
-  const [createDateTime, setCreateDateTime] = useState(0);
-  const [userTypeId, setUserTypeId] = useState(0);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+
+
+  // useEffect here
+  useEffect(() => {
+    getUserbyid(user) 
+      .then(userData => {
+        setUser(userData); // Set user data fetched from API
+      })
+      .catch(error => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [user]);
+
+
 
   
 
   const handleSubmit = (e) => {
-    return updateUser(user).then(() => navigate("/users"));
-};
+    e.preventDefault();
+    updateUser(user)
+      .then(() => navigate("/users"))
+      .catch(error => {
+        console.error("Error updating user:", error);
+      });
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
       <fieldset>
         <FormGroup>
           <Label htmlFor="firstName">First Name</Label>
-          <Input id="firstName" type="text" onChange={e => setFirstName(e.target.value)} />
+          <Input id="firstName" type="text" value={user.firstName} onChange={e => setUser({ ...user, firstName: e.target.value })}/>
         </FormGroup>
         <FormGroup>
           <Label htmlFor="lastName">Last Name</Label>
-          <Input id="lastName" type="text" onChange={e => setLastName(e.target.value)} />
+          <Input id="lastName" type="text" value={user.lastName} onChange={e => setUser({...user, lastName: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label htmlFor="displayName">Display Name</Label>
-          <Input id="displayName" type="text" onChange={e => setDisplayName(e.target.value)} />
+          <Input id="displayName" type="text" onChange={e => setUser({...user, displayName: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="email">Email</Label>
-          <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
+          <Input id="email" type="text" onChange={e => setUser({...user, email: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="bio">A little about yourself:</Label>
-          <Input id="bio" type="text" onChange={e => setBio(e.target.value)} />
+          <Input id="bio" type="text" onChange={e => setUser({...user, bio: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="imageLocation">Your Avatar:</Label>
-          <Input id="imageLocation" type="text" onChange={e => setimageLocation(e.target.value)} />
+          <Input id="imageLocation" type="text" onChange={e => setUser({...user, imageLocation: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="preferredGames">What games do you like to play?</Label>
-          <Input id="preferredGames" type="text" onChange={e => setPreferredGames(e.target.value)} />
+          <Input id="preferredGames" type="text" onChange={e => setUser({...user, preferredGames: e.target.value})}/>
         </FormGroup>
         <FormGroup>
           <Label for="password">Password</Label>
-          <Input id="password" type="password" onChange={e => setPassword(e.target.value)} />
+          <Input id="password" type="password" onChange={e => setUser({...user, password: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="confirmPassword">Confirm Password</Label>
-          <Input id="confirmPassword" type="password" onChange={e => setConfirmPassword(e.target.value)} />
+          <Input id="confirmPassword" type="password" onChange={e => setUser({...user, password: e.target.value})} />
         </FormGroup>
         <FormGroup check>
               <Label check>
-                <Input type="checkbox" onChange={() => setUserTypeId(!userTypeId)} />{' '}
+                <Input type="checkbox" onChange={e => setUser({...user, userTypeId: e.target.value})} />{' '}
                 Admin
               </Label>
         </FormGroup>
         <FormGroup check>
               <Label check>
-                <Input type="checkbox" onChange={() => setReady(!ready)} />{' '}
+                <Input type="checkbox" onChange={e => setUser({...user, ready: e.target.value})} />{' '}
                 Ready
               </Label>
 
@@ -99,7 +106,7 @@ export default function UpdateUser() {
       name="date"
       placeholder="date placeholder"
       type="date"
-      onChange={e => setCreateDateTime(e.target.value)}
+      onChange={e => setUser({...user, createDateTime: e.target.value})}
     />
   </FormGroup>
         <FormGroup>

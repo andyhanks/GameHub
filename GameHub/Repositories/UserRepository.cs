@@ -152,10 +152,13 @@ namespace GameHub.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO UserProfile (FirstName, LastName, DisplayName, Id,
+                    cmd.CommandText = @"
+                                        
+
+                                        INSERT INTO UserProfile ( FirstName, LastName, DisplayName, 
                                                                  Email, Bio, PreferredGames, CreateDateTime, ImageLocation, Ready, Password, UserTypeId)
                                         OUTPUT INSERTED.ID
-                                        VALUES ( @Id, @FirstName, @LastName, @DisplayName, 
+                                        VALUES ( @FirstName, @LastName, @DisplayName, 
                                                 @Email, @Bio, @PreferredGames, @CreateDateTime, @ImageLocation, @Ready, @Password, @UserTypeId)";
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
@@ -168,7 +171,7 @@ namespace GameHub.Repositories
                     DbUtils.AddParameter(cmd, "@Ready", userProfile.Ready);
                     DbUtils.AddParameter(cmd, "@Password", userProfile.Password);
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
-                    DbUtils.AddParameter(cmd, "@Id", userProfile.Id);
+                   
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }
