@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom";
-import {getAllUsers, getUserbyid } from "../../apimanagers/UserManager";
+import { getUserbyid } from "../../apimanagers/UserManager";
 import { Card } from "reactstrap";
 
 export const UserDetails = () => {
     const [user, setUsers] = useState([]);
     const {id} = useParams();
 
+
     const getUser = () => {
-        getUserbyid(id).then((thisuser) => setUsers(thisuser));
+       
+       let userId = id ? id : JSON.parse(localStorage.getItem('userProfile')).id; // if the id is not null then use it, if it is then use local storage id
+        getUserbyid(userId).then((thisuser) => setUsers(thisuser));
     }
 
     const createdDate = new Date(user.createDateTime);

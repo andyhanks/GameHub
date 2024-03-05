@@ -1,4 +1,5 @@
-﻿using GameHub.Models;
+﻿using Azure;
+using GameHub.Models;
 using GameHub.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,5 +23,23 @@ namespace GameHub.Controllers
         {
             return Ok(_lobbyRepository.GetAll());
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_lobbyRepository.GetById(id));
+        }
+
+        [HttpPost]
+        public IActionResult Post(Lobby lobby)
+        {
+            lobby.CreateDateTime = DateTime.Now;
+            _lobbyRepository.Add(lobby);
+            return CreatedAtAction(
+                "GetById", new { id = lobby.Id }, lobby);
+        }
     }
+
+
+
 }

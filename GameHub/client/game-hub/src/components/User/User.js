@@ -1,9 +1,19 @@
 import React from "react";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-// import cyborg from `src/images/cyborg.png`;
+
 
 export const User = ({ user }) => {
+//   const ValidatePic = () => {
+//         fetch(user.imageLocation).then(r => {
+//           if (r.ok){
+//             return user.imageLocation
+//           }else{
+//             return "/images/cyborg.png"
+//           }
+//         }).catch(e => "/images/cyborg.png")
+//   }
+
   return (
     <Card className="m-4">
         <CardBody>

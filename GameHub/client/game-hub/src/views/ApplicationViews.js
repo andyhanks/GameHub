@@ -7,6 +7,7 @@ import Login from "../components/Auth/Login";
 import UserDetails from "../components/User/UserDetails";
 import UpdateUser from "../components/User/UpdateUser";
 import LobbyList from "../components/Lobby/LobbyList";
+import { GameRoom } from "../components/Lobby/GameRoom";
 
 
 
@@ -21,6 +22,7 @@ export default function ApplicationViews() {
         <Route path="/users/:id" element={<UserDetails/>}/>
         <Route path="/users/update/:id" element={<UpdateUser/>}/>
         <Route path="/lobbies" element={<LobbyList/>}/>
+        <Route path="/lobbies/:id" element={<GameRoom/>}/>
         <Route path="/login" element={<Login/>}/>
       </Routes>
     </>
