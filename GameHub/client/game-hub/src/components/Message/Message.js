@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
-import { Link } from "react-router-dom";
+
 
 export const Message = ({ message }) => {
   // Format the sendDate to a readable format

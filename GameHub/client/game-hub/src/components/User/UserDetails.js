@@ -24,7 +24,7 @@ export const UserDetails = () => {
     return (
         <>
         <Card>
-           <Link to={`/users/`}><button className="btn btn-primary">Back to User List</button></Link> 
+           {/* <Link to={`/users/`}><button className="btn btn-primary">Back to User List</button></Link>  */}
             <div className="text-center">
             <img className="image" id="userImg" src={user.ImageLocation} alt={user.displayName}/>
             </div>

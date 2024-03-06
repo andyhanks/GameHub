@@ -1,22 +1,12 @@
-import React, { useState, useEffect } from "react";
+
 import { Message } from "./Message";
-import { getAllMessages, getMessagesByLobbyId } from "../../apimanagers/MessageManager";
-import { useParams } from "react-router-dom";
 
 
 
-const MessageList = ({}) => {
-  const [messages, setMessages] = useState([]);
-  const {id} = useParams();
 
-  const getMessages = () => {
-    return getMessagesByLobbyId(id).then(allMessages => setMessages(allMessages)); 
-  };
+const MessageList = ({messages}) => {
+ 
 
-  useEffect(() => {
-    getMessages();
-    console.log(messages)
-  }, []); 
   return (
     <div className="container">
       <div className="row justify-content-center">

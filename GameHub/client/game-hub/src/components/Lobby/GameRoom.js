@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom";
 import { getUserbyid } from "../../apimanagers/UserManager";
 import { Button, Card, Form, FormGroup, Input, Label } from "reactstrap";
-import { addMessage, getAllMessages } from "../../apimanagers/MessageManager";
+import { addMessage, getAllMessages, getMessagesByLobbyId } from "../../apimanagers/MessageManager";
 import { Message } from "../Message/Message";
 import MessageList from "../Message/MessageList";
 
@@ -23,9 +23,18 @@ export const GameRoom = () => {
         let userId = JSON.parse(localStorage.getItem('userProfile')).id; // use local storage id
          getUserbyid(userId).then((thisuser) => setUser(thisuser));
      }
-    //  const getMessages = () => {
-    //   getAllMessages().then(allMessages => setMessages(allMessages)); 
-    // }
+
+     const getMessages = () => {
+      return getMessagesByLobbyId(id).then(allMessages => setMessages(allMessages)); 
+    };
+    
+      useEffect(() => {
+          getMessages();
+          console.log(messages)
+          }, []); 
+
+  
+
         const defaultMessage = {
           userId: user.id,
           lobbyId: parseInt(id),
@@ -37,22 +46,25 @@ export const GameRoom = () => {
           const newMessageEntry = { ...message }
           newMessageEntry.sendDate = new Date()
           addMessage(newMessageEntry)
-          setMessage(defaultMessage)
+          .then(getMessages)
+          // .then(() => setMessage(defaultMessage))
+          
         } //fill this!!!
         
         
         
-        const sendDate = new Date(user.sendDate);
-        const formattedDate = sendDate.toLocaleDateString(`en-US`);
+
      useEffect(() => {
          getUser();
      }, []);
+
+
      
     return (
         <div  style={{ display: 'flex', height: '100vh' }}>
         <div style={{ flex: '1', backgroundColor: '#711c91', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <h1 style={{color:'#091833'}}>[GameHub]</h1>
-        <div>{<MessageList/>}</div>
+        <div>{<MessageList messages={messages} />}</div>
         </div>
         <div style={{ padding: '20px', backgroundColor:'#091833' }}>
         <h2 style={{color:'#ea00d9'}}>Welcome {user.displayName}! Game on! </h2>
