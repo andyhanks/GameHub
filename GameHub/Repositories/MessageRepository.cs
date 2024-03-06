@@ -40,6 +40,7 @@ namespace GameHub.Repositories
         //add
         public void Add(Message message)
         {
+
             using (var conn = Connection)
             {
                 conn.Open();
@@ -55,7 +56,11 @@ namespace GameHub.Repositories
                     message.Id = (int)cmd.ExecuteScalar();
                 }
             }
+
         }
+
+   
+        
         //////////////////////delete
 
         public List<Message> GetById(int id)
@@ -159,6 +164,45 @@ namespace GameHub.Repositories
                     }
                     reader.Close();
                     return null;
+                }
+            }
+        }
+
+        public List<Message> GetMessageByLobbyId(int id) 
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                    SELECT Id, Content, SendDate, LobbyId, UserId 
+                                    FROM Message
+                                    WHERE LobbyId = @id
+                                    ";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+               
+                        Message message = new Message();
+                        List<Message> messages = new List<Message>();
+                        while (reader.Read())
+                        {
+                            
+                            message = new Message()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Content = reader.GetString(reader.GetOrdinal("Content")),
+                                SendDate = DbUtils.GetDateTime(reader, "SendDate"),
+                                LobbyId = DbUtils.GetInt(reader, "LobbyId"),
+                                UserId = DbUtils.GetInt(reader, "UserId"),
+                             };
+
+                            messages.Add(message);
+                        }
+                        reader.Close();
+                        return messages;
+                    
+
                 }
             }
         }

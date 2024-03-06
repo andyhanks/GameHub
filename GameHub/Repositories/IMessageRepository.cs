@@ -9,6 +9,7 @@ namespace GameHub.Repositories
         List<Message> GetAll();
         List<Message> GetById(int id);
         Message GetMessageById(int id);
+        List<Message> GetMessageByLobbyId(int id);
         void UpdateMessage(Message message);
     }
 }
