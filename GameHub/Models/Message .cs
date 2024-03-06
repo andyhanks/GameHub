@@ -10,7 +10,6 @@ namespace GameHub.Models
         public string Content { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}")]
         public DateTime SendDate { get; set; }
 
         [Required]

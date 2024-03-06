@@ -15,9 +15,10 @@ export const User = ({ user }) => {
 //   }
 
   return (
-    <Card className="m-4">
-        <CardBody>
-      <CardImg top src={user.imageLocation}  alt="avatar_pic" />
+    <Card style={{width: "50%"}} className="m-4">
+        <CardBody >
+      <CardImg
+      top src={user.imageLocation}  alt="avatar_pic" />
       <p className="text-left px-2">Registered User Id: {user.id}</p>
       <p className="text-left px2"> {user.displayName}</p>
      

@@ -27,8 +27,8 @@ namespace GameHub.Controllers
         public IActionResult Post(Message message)
         {
             _messageRepository.Add(message);
-            return CreatedAtAction(
-                "Get", new { id = message.Id }, message);
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -56,15 +56,16 @@ namespace GameHub.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateMessage(int id, Message message)
         {
-            if (id != message.Id)
-            {
-                return BadRequest();
-            }
 
             _messageRepository.UpdateMessage(message);
 
             return NoContent();
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetByLobbyId(int id)
+        {
+            return Ok(_messageRepository.GetMessageByLobbyId(id));
+        }
     }
 }
