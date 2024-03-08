@@ -1,11 +1,13 @@
 import React, { useEffect, useState} from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getUserbyid, updateUser } from "../../apimanagers/UserManager";
 
 
 export default function UpdateUser() {
   const navigate = useNavigate();
+  const {id} = useParams();
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -23,7 +25,7 @@ export default function UpdateUser() {
 
   // useEffect here
   useEffect(() => {
-    getUserbyid(user) 
+    getUserbyid(id) 
       .then(userData => {
         setUser(userData); // Set user data fetched from API
       })
@@ -32,11 +34,7 @@ export default function UpdateUser() {
       });
   }, [user]);
 
-
-
-  
-
-  const handleSubmit = (e) => {
+ const handleSubmit = (e) => {
     e.preventDefault();
     updateUser(user)
       .then(() => navigate("/users"))
@@ -58,57 +56,31 @@ export default function UpdateUser() {
         </FormGroup>
         <FormGroup>
           <Label htmlFor="displayName">Display Name</Label>
-          <Input id="displayName" type="text" onChange={e => setUser({...user, displayName: e.target.value})} />
+          <Input id="displayName" type="text" value={user.displayName} onChange={e => setUser({...user, displayName: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="email">Email</Label>
-          <Input id="email" type="text" onChange={e => setUser({...user, email: e.target.value})} />
+          <Input id="email" type="text" value={user.email} onChange={e => setUser({...user, email: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="bio">A little about yourself:</Label>
-          <Input id="bio" type="text" onChange={e => setUser({...user, bio: e.target.value})} />
+          <Input id="bio" type="text" value={user.bio} onChange={e => setUser({...user, bio: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="imageLocation">Your Avatar:</Label>
-          <Input id="imageLocation" type="text" onChange={e => setUser({...user, imageLocation: e.target.value})} />
+          <Input id="imageLocation" type="text" value={user.imageLocation} onChange={e => setUser({...user, imageLocation: e.target.value})} />
         </FormGroup>
         <FormGroup>
           <Label for="preferredGames">What games do you like to play?</Label>
-          <Input id="preferredGames" type="text" onChange={e => setUser({...user, preferredGames: e.target.value})}/>
-        </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
-          <Input id="password" type="password" onChange={e => setUser({...user, password: e.target.value})} />
-        </FormGroup>
-        <FormGroup>
-          <Label for="confirmPassword">Confirm Password</Label>
-          <Input id="confirmPassword" type="password" onChange={e => setUser({...user, password: e.target.value})} />
+          <Input id="preferredGames" type="text" value={user.preferredGames} onChange={e => setUser({...user, preferredGames: e.target.value})}/>
         </FormGroup>
         <FormGroup check>
               <Label check>
-                <Input type="checkbox" onChange={e => setUser({...user, userTypeId: e.target.value})} />{' '}
+                <Input type="checkbox" checked={user.userTypeId === 2} value={user.userTypeId} onChange={e => setUser({...user, userTypeId: e.target.value})} />{' '}
                 Admin
               </Label>
         </FormGroup>
-        <FormGroup check>
-              <Label check>
-                <Input type="checkbox" onChange={e => setUser({...user, ready: e.target.value})} />{' '}
-                Ready
-              </Label>
 
-        </FormGroup>
-        <FormGroup>
-    <Label for="createDateTime">
-      Date
-    </Label>
-    <Input
-      id="createDate"
-      name="date"
-      placeholder="date placeholder"
-      type="date"
-      onChange={e => setUser({...user, createDateTime: e.target.value})}
-    />
-  </FormGroup>
         <FormGroup>
           <Button>Save</Button>
         </FormGroup>

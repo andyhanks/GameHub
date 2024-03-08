@@ -1,18 +1,14 @@
 import React from "react";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import { getUserbyid } from "../../apimanagers/UserManager";
 
 
 export const User = ({ user }) => {
-//   const ValidatePic = () => {
-//         fetch(user.imageLocation).then(r => {
-//           if (r.ok){
-//             return user.imageLocation
-//           }else{
-//             return "/images/cyborg.png"
-//           }
-//         }).catch(e => "/images/cyborg.png")
-//   }
+
+    let activeUser = JSON.parse(localStorage.getItem('userProfile')); // use local storage id
+  
+ 
 
   return (
     <Card style={{width: "50%"}} className="m-4">
@@ -24,7 +20,8 @@ export const User = ({ user }) => {
      
         <div className="text-center">
         <Link to={`/users/${user.id}`}><button className="btn btn-primary">User Details</button></Link>
-        <Link to={`/users/update/${user.id}`}><button className="btn btn-primary">Update User</button></Link>
+       {activeUser.userTypeId === 2 && 
+        <Link to={`/users/update/${user.id}`}><button className="btn btn-primary">Update User</button></Link>}
         </div>
       </CardBody>
     </Card>
