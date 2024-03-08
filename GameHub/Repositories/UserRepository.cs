@@ -18,7 +18,7 @@ namespace GameHub.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT up.Id, up.FirstName, up.LastName, up.DisplayName, 
-                               up.Email, up.CreateDateTime, up.ImageLocation, up.UserTypeId,
+                               up.Email, up.Bio, up.PreferredGames, up.CreateDateTime, up.ImageLocation, up.Ready, up.[Password], up.UserTypeId,
                                ut.TypeName AS UserTypeName
                           FROM UserProfile up
                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
@@ -39,6 +39,10 @@ namespace GameHub.Repositories
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            Bio = DbUtils.GetString(reader, "Bio"),
+                            PreferredGames = DbUtils.GetString(reader, "PreferredGames"),
+                            Password = DbUtils.GetString(reader, "Password"),
+                            Ready = (bool)DbUtils.GetBool(reader, "Ready"),
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "UserTypeId"),
@@ -99,51 +103,7 @@ namespace GameHub.Repositories
             }
         }
 
-        public UserProfile GetById(int id)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        SELECT up.Id, up.FirstName, up.LastName, up.DisplayName, 
-                               up.Email, up.CreateDateTime, up.ImageLocation, up.UserTypeId,
-                               ut.TypeName AS UserTypeName
-                          FROM UserProfile up
-                               LEFT JOIN UserType ut on up.UserTypeId = ut.Id
-                         WHERE up.Id = @Id";
-
-                    DbUtils.AddParameter(cmd, "@Id", id);
-
-                    UserProfile userProfile = null;
-
-                    var reader = cmd.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        userProfile = new UserProfile()
-                        {
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            FirstName = DbUtils.GetString(reader, "FirstName"),
-                            LastName = DbUtils.GetString(reader, "LastName"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                            Email = DbUtils.GetString(reader, "Email"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
-                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                            UserType = new UserType()
-                            {
-                                Id = DbUtils.GetInt(reader, "UserTypeId"),
-                                TypeName = DbUtils.GetString(reader, "UserTypeName"),
-                            }
-                        };
-                    }
-                    reader.Close();
-
-                    return userProfile;
-                }
-            }
-        }
+       
 
         public void Add(UserProfile userProfile)
         {
@@ -171,7 +131,7 @@ namespace GameHub.Repositories
                     DbUtils.AddParameter(cmd, "@Ready", userProfile.Ready);
                     DbUtils.AddParameter(cmd, "@Password", userProfile.Password);
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
-                   
+
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
                 }
@@ -229,29 +189,70 @@ namespace GameHub.Repositories
             }
         }
 
+        public UserProfile GetById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT up.Id, up.FirstName, up.LastName, up.DisplayName, 
+                               up.Email, up.Bio, up.PreferredGames, up.CreateDateTime, up.ImageLocation, up.Ready, up.[Password], up.UserTypeId,
+                               ut.TypeName AS UserTypeName
+                          FROM UserProfile up
+                               LEFT JOIN UserType ut on up.UserTypeId = ut.Id
+                         WHERE up.Id = @Id";
 
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    UserProfile userProfile = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        userProfile = new UserProfile()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            Bio = DbUtils.GetString(reader, "Bio"),
+                            PreferredGames = DbUtils.GetString(reader, "PreferredGames"),
+                            Password = DbUtils.GetString(reader, "Password"),
+                            Ready = (bool)DbUtils.GetBool(reader, "Ready"),
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                TypeName = DbUtils.GetString(reader, "UserTypeName"),
+                            }
+                        };
+                    }
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
+        }
         public void Delete(int userId)
         {
             using (var conn = Connection)
             {
                 conn.Open();
-                using (var cmd = Connection.CreateCommand())
+                using (var cmd = conn.CreateCommand())
                 {
-                    try
-                    {
-                        cmd.CommandText = "DELETE FROM UserProfile WHERE Id = @id";
-                        DbUtils.AddParameter(cmd, "@id", userId);
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Error deleting user profile", ex);
-                    }
-
+                    cmd.CommandText = @"DELETE FROM UserProfile 
+                                        WHERE Id = @UserId";
+                    DbUtils.AddParameter(cmd, "@UserId", userId);
+                    cmd.ExecuteNonQuery();
                 }
+
+
             }
-
-
         }
     }
 }

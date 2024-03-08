@@ -8,6 +8,9 @@ import MessageList from "../Message/MessageList";
 
 export const GameRoom = () => {
 
+
+  
+
     const [lobby, setLobby] = useState({});
     const [user, setUser] = useState({});
     const [users, setUsers] = useState([]);
@@ -25,38 +28,41 @@ export const GameRoom = () => {
      }
 
      const getMessages = () => {
-      return getMessagesByLobbyId(id).then(allMessages => setMessages(allMessages)); 
+      return getMessagesByLobbyId(id)
+      .then(allMessages => setMessages(allMessages)); 
     };
     
       useEffect(() => {
-          getMessages();
-          console.log(messages)
-          }, []); 
+        getMessages();
+      }, []); 
 
   
 
-        const defaultMessage = {
-          userId: user.id,
-          lobbyId: parseInt(id),
-          content: ""
-        }
+      const defaultMessage = {
+        userId: user.id,
+        lobbyId: parseInt(id),
+        content: ""
+      }
 
-        const messageSubmit = (e) => { 
-          e.preventDefault() 
-          const newMessageEntry = { ...message }
-          newMessageEntry.sendDate = new Date()
-          addMessage(newMessageEntry)
-          .then(getMessages)
-          // .then(() => setMessage(defaultMessage))
-          
-        } //fill this!!!
+      const messageSubmit = (e) => { 
+        e.preventDefault() 
+        console.log(defaultMessage, message)
+        const newMessageEntry = { ...message }
+        setMessage(defaultMessage)
+        document.getElementById('content').value = ''
+        newMessageEntry.sendDate = new Date()
+        addMessage(newMessageEntry)
+        .then(getMessages)
+      
+        
+      } //fill this!!!
         
         
         
 
-     useEffect(() => {
-         getUser();
-     }, []);
+      useEffect(() => {
+        getUser();
+      }, []);
 
 
      
@@ -64,7 +70,7 @@ export const GameRoom = () => {
         <div  style={{ display: 'flex', height: '100vh' }}>
         <div style={{ flex: '1', backgroundColor: '#711c91', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <h1 style={{color:'#091833'}}>[GameHub]</h1>
-        <div>{<MessageList messages={messages} />}</div>
+        <div>{<MessageList messages={messages} user={user} />}</div>
         </div>
         <div style={{ padding: '20px', backgroundColor:'#091833' }}>
         <h2 style={{color:'#ea00d9'}}>Welcome {user.displayName}! Game on! </h2>

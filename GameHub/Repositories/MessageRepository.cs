@@ -176,10 +176,12 @@ namespace GameHub.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                    SELECT Id, Content, SendDate, LobbyId, UserId 
-                                    FROM Message
-                                    WHERE LobbyId = @id
-                                    ";
+                                    SELECT m.Id, Content, SendDate, LobbyId, UserId,
+                                    u.Id as UserProfileId, u.DisplayName
+                                    FROM Message m
+                                    LEFT Join UserProfile u
+                                    ON m.UserId = u.id
+                                    Where m.LobbyId = @id                                 ";
                     cmd.Parameters.AddWithValue("@id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
                
@@ -195,7 +197,13 @@ namespace GameHub.Repositories
                                 SendDate = DbUtils.GetDateTime(reader, "SendDate"),
                                 LobbyId = DbUtils.GetInt(reader, "LobbyId"),
                                 UserId = DbUtils.GetInt(reader, "UserId"),
-                             };
+                                UserProfile = new UserProfile()
+                                {
+                                    Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                }
+
+                            };
 
                             messages.Add(message);
                         }

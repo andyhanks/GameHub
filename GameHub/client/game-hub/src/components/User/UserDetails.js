@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom";
 import { getUserbyid } from "../../apimanagers/UserManager";
-import { Card } from "reactstrap";
+import { Card, CardImg } from "reactstrap";
 
 export const UserDetails = () => {
     const [user, setUsers] = useState([]);
@@ -25,7 +25,9 @@ export const UserDetails = () => {
         <>
         <Card>
            {/* <Link to={`/users/`}><button className="btn btn-primary">Back to User List</button></Link>  */}
+            
             <div className="text-center">
+           <CardImg  style={{width: "400px"}}top src={user.imageLocation}  alt="avatar_pic" />
             <img className="image" id="userImg" src={user.ImageLocation} alt={user.displayName}/>
             </div>
             <br />
@@ -44,6 +46,11 @@ export const UserDetails = () => {
         <div className="row justify-content-center">
            User Created On <strong className="row justify-content-center">{formattedDate}</strong>
         </div>
+        <br />
+        <div className="row justify-content-center">
+           <i className="row justify-content-center">{user.bio}</i>
+        </div>
+        <br />
         <br />
         </Card>
         </>
