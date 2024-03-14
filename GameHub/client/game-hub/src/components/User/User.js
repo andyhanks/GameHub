@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import { getUserbyid } from "../../apimanagers/UserManager";
+import { getUserById } from "../../apimanagers/UserManager";
 
 
 export const User = ({ user }) => {
@@ -20,8 +20,8 @@ export const User = ({ user }) => {
      
         <div className="text-center">
         <Link to={`/users/${user.id}`}><button className="btn btn-primary">User Details</button></Link>
-       {activeUser.userTypeId === 2 && 
-        <Link to={`/users/update/${user.id}`}><button className="btn btn-primary">Update User</button></Link>}
+       {activeUser.id === user.id && 
+        <Link to={`/users/update/${user.id}`}><button className="btn btn-primary">Edit My Profile</button></Link>}
         </div>
       </CardBody>
     </Card>

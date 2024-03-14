@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom";
-import { getUserbyid } from "../../apimanagers/UserManager";
+import { getUserById, getUserbyid } from "../../apimanagers/UserManager";
 import { Button, Card, Form, FormGroup, Input, Label } from "reactstrap";
 import { addMessage, getAllMessages, getMessagesByLobbyId } from "../../apimanagers/MessageManager";
 import { Message } from "../Message/Message";
@@ -24,7 +24,7 @@ export const GameRoom = () => {
     const getUser = () => {
        
         let userId = JSON.parse(localStorage.getItem('userProfile')).id; // use local storage id
-         getUserbyid(userId).then((thisuser) => setUser(thisuser));
+         getUserById(userId).then((thisuser) => setUser(thisuser));
      }
 
      const getMessages = () => {
@@ -70,7 +70,7 @@ export const GameRoom = () => {
         <div  style={{ display: 'flex', height: '100vh' }}>
         <div style={{ flex: '1', backgroundColor: '#711c91', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <h1 style={{color:'#091833'}}>[GameHub]</h1>
-        <div>{<MessageList messages={messages} user={user} />}</div>
+        <div>{<MessageList messages={messages} user={user} setMessages={setMessages} lobbyId={id}/>}</div>
         </div>
         <div style={{ padding: '20px', backgroundColor:'#091833' }}>
         <h2 style={{color:'#ea00d9'}}>Welcome {user.displayName}! Game on! </h2>

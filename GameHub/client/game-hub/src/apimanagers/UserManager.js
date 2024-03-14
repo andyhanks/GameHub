@@ -31,7 +31,7 @@ export const addUser = (singleUser) => {
   });
   
 };
-export const getUserbyid = (id) => {
+export const getUserById = (id) => {
   return fetch(`${baseUrl}/api/User/${id}`)
     .then((r) => r.json());
 }
@@ -59,8 +59,9 @@ export const updateUser = (user) =>{
   return fetch(`${baseUrl}/api/User/${user.id}`, {
     method: "PUT",
     headers: {
-      body: JSON.stringify(user)
-    }
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user)
   })
 }
 

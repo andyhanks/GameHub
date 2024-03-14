@@ -1,9 +1,9 @@
 import React from "react";
-import { Card, CardBody, CloseButton } from "reactstrap";
+import { Button, Card, CardBody, CloseButton } from "reactstrap";
 import { deleteMessage, getMessagesByLobbyId } from "../../apimanagers/MessageManager";
-import { redirect, useParams, useNavigate } from "react-router-dom";
+import { redirect, useParams, useNavigate, Link } from "react-router-dom";
 
-export const Message = ({ message, user }) => {
+export const Message = ({ message, user, messages, setMessages, lobbyId }) => {
   // Format the sendDate to a readable format
   const formattedDate = new Date(message.sendDate).toLocaleString();
   const {id} = useParams
@@ -11,6 +11,7 @@ export const Message = ({ message, user }) => {
 
   return (
     <Card className="m-4">
+      {console.log(lobbyId)}
       <CardBody> 
         <p className="text-left px2"> Sender: {message.userProfile.displayName}</p> 
         <p className="text-left px2"> Time sent: {formattedDate}</p>         
@@ -19,9 +20,13 @@ export const Message = ({ message, user }) => {
         onClick={(e)=>{
           e.preventDefault()
           deleteMessage(message.id)
-          window.location.reload()
+          .then(() => {
+            return getMessagesByLobbyId(lobbyId)
+          })
+          .then((r) => setMessages(r))
         }}/>}
-      
+        {user.id === message.userId && 
+        <Link to={`/lobbies/edit/${message.id}`}><button className="btn btn-primary">edit</button></Link>}
       </CardBody>
     </Card>
   );
