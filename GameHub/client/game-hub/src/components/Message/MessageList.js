@@ -5,7 +5,7 @@ import { Message } from "./Message";
 
 
 
-const MessageList = ({messages, user}) => {
+const MessageList = ({messages, setMessages, user, lobbyId}) => {
  
 
   return (
@@ -14,7 +14,7 @@ const MessageList = ({messages, user}) => {
         <div className="row justify-content-center">
         <div className="cards-column">
           {messages.map((message) => (
-            <Message key={message.id} message={message} user={user}/>
+            <Message key={message.id} message={message} messages={messages} setMessages={setMessages} user={user} lobbyId={lobbyId}/>
           ))}
         </div>
         </div>

@@ -159,7 +159,6 @@ namespace GameHub.Repositories
                         CreateDateTime = @createDateTime, 
                         ImageLocation = @imageLocation, 
                         Ready = @ready, 
-                        UserTypeId = @userTypeId,
                         [Password] = @password 
                         Where Id = @id;    ";
                     DbUtils.AddParameter(cmd, "@id", userProfile.Id);
@@ -173,7 +172,7 @@ namespace GameHub.Repositories
                     DbUtils.AddParameter(cmd, "@imageLocation", userProfile.ImageLocation);
                     DbUtils.AddParameter(cmd, "@ready", userProfile.Ready);
                     DbUtils.AddParameter(cmd, "@password", userProfile.Password);
-                    DbUtils.AddParameter(cmd, "@userTypeId", userProfile.UserTypeId);
+                 
 
 
                     try

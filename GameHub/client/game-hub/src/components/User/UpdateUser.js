@@ -1,14 +1,15 @@
 import React, { useEffect, useState} from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserbyid, updateUser } from "../../apimanagers/UserManager";
+import { getUserById, updateUser } from "../../apimanagers/UserManager";
 
 
-export default function UpdateUser() {
+export default function UpdateUser(user) {
   const navigate = useNavigate();
   const {id} = useParams();
 
-  const [user, setUser] = useState({
+  const [editedUser, setEditedUser] = useState({
+    id: user.id,
     firstName: "",
     lastName: "",
     displayName: "",
@@ -17,72 +18,125 @@ export default function UpdateUser() {
     imageLocation: "",
     preferredGames: "",
     ready: false,
-    createDateTime: "",
-    userTypeId: "",
-    password: ""
+    createDateTime: ""
   });
+
 
 
   // useEffect here
   useEffect(() => {
-    getUserbyid(id) 
-      .then(userData => {
-        setUser(userData); // Set user data fetched from API
-      })
-      .catch(error => {
-        console.error("Error fetching user data:", error);
+    getUserById(id) 
+      .then((res) => {
+        setEditedUser(res); // Set user data fetched from API
       });
-  }, [user]);
+  },
+   [])
+   if (!editedUser) {
+    return null;
+   }
 
  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateUser(user)
-      .then(() => navigate("/users"))
-      .catch(error => {
-        console.error("Error updating user:", error);
-      });
+    e.preventDefault()
+  
+    return updateUser(editedUser)
+      .then(() => {
+        navigate(`/`)
+      })
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form className="user-form">
       <fieldset>
         <FormGroup>
           <Label htmlFor="firstName">First Name</Label>
-          <Input id="firstName" type="text" value={user.firstName} onChange={e => setUser({ ...user, firstName: e.target.value })}/>
+          <Input 
+          id="firstName" 
+          type="text" 
+        value={editedUser.firstName} 
+          onChange={(event) => {
+            const copy = { ...editedUser}
+            copy.firstName = event.target.value
+            setEditedUser(copy)
+          }}/>
         </FormGroup>
         <FormGroup>
           <Label htmlFor="lastName">Last Name</Label>
-          <Input id="lastName" type="text" value={user.lastName} onChange={e => setUser({...user, lastName: e.target.value})} />
+          <Input 
+                 id="lastName" 
+                 type="text" 
+                 value={editedUser.lastName} 
+                 onChange={(event) => {
+                  const copy = { ...editedUser}
+                  copy.lastName = event.target.value
+                  setEditedUser(copy)
+                 }} />
         </FormGroup>
         <FormGroup>
           <Label htmlFor="displayName">Display Name</Label>
-          <Input id="displayName" type="text" value={user.displayName} onChange={e => setUser({...user, displayName: e.target.value})} />
+          <Input 
+            id="displayName" 
+            type="text" 
+            value={editedUser.displayName} 
+            onChange={(event) => {
+              const copy = { ...editedUser}
+              copy.displayName = event.target.value
+              setEditedUser(copy)
+            }}/>
         </FormGroup>
         <FormGroup>
           <Label for="email">Email</Label>
-          <Input id="email" type="text" value={user.email} onChange={e => setUser({...user, email: e.target.value})} />
+          <Input 
+          id="email" 
+          type="text" 
+          value={editedUser.email} 
+          onChange={(event) =>{
+            const copy = {...editedUser}
+            copy.email = event.target.value
+            setEditedUser(copy)
+            }} />
         </FormGroup>
         <FormGroup>
           <Label for="bio">A little about yourself:</Label>
-          <Input id="bio" type="text" value={user.bio} onChange={e => setUser({...user, bio: e.target.value})} />
+          <Input 
+          id="bio" 
+          type="text" 
+          value={editedUser.bio} 
+          onChange= {(event) =>{
+            const copy = {...editedUser}
+            copy.bio = event.target.value
+            setEditedUser(copy)
+            }} />
         </FormGroup>
         <FormGroup>
           <Label for="imageLocation">Your Avatar:</Label>
-          <Input id="imageLocation" type="text" value={user.imageLocation} onChange={e => setUser({...user, imageLocation: e.target.value})} />
+          <Input 
+          id="imageLocation" 
+          type="text" 
+          value={editedUser.imageLocation} 
+          onChange={(event) =>{
+            const copy = {...editedUser}
+            copy.imageLocation = event.target.value
+            setEditedUser(copy)
+            }} />
         </FormGroup>
         <FormGroup>
           <Label for="preferredGames">What games do you like to play?</Label>
-          <Input id="preferredGames" type="text" value={user.preferredGames} onChange={e => setUser({...user, preferredGames: e.target.value})}/>
-        </FormGroup>
-        <FormGroup check>
-              <Label check>
-                <Input type="checkbox" checked={user.userTypeId === 2} value={user.userTypeId} onChange={e => setUser({...user, userTypeId: e.target.value})} />{' '}
-                Admin
-              </Label>
-        </FormGroup>
+          <Input 
+          id="preferredGames" 
+          type="text" 
+          value={editedUser.preferredGames} 
+          onChange= {(event) =>{
+            const copy = {...editedUser}
+            copy.preferredGames = event.target.value
+            setEditedUser(copy)
+            }} />
+        </FormGroup> 
+
 
         <FormGroup>
-          <Button>Save</Button>
+          <Button
+           onClick={(clickEvent) => handleSubmit(clickEvent)} 
+           className="btn btn-primary">Save Changes</Button>
         </FormGroup>
       </fieldset>
     </Form>
