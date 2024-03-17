@@ -17,7 +17,7 @@ GameHub is a Looking for Group (LFG) website designed to connect gamers who are 
 4. Start the server: `npm start`
 5. Access the website at `http://localhost:3000`
 6. Install Microsoft SQL Server
-7. Run the following SQL Queries:
+7. Run the SQL Queries in your server management tool
    
 
 
