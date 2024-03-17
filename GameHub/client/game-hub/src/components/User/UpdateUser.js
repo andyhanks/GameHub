@@ -45,7 +45,7 @@ export default function UpdateUser(user) {
   };
 
   return (
-    <Form className="user-form">
+    <Form className="user-form" style={{color:'#ea00d9'}}>
       <fieldset>
         <FormGroup>
           <Label htmlFor="firstName">First Name</Label>

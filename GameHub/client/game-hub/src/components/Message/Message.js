@@ -1,22 +1,26 @@
 import React from "react";
-import { Button, Card, CardBody, CloseButton } from "reactstrap";
+import { Button, Card, CardBody, CardImg, CloseButton } from "reactstrap";
 import { deleteMessage, getMessagesByLobbyId } from "../../apimanagers/MessageManager";
 import { redirect, useParams, useNavigate, Link } from "react-router-dom";
+import { EditIcon } from "../util/EditIcon";
+import { CloseIcon } from "../util/CloseIcon";
 
-export const Message = ({ message, user, messages, setMessages, lobbyId }) => {
+export const Message = ({ message, user, setMessages, lobbyId }) => {
   // Format the sendDate to a readable format
   const formattedDate = new Date(message.sendDate).toLocaleString();
   const {id} = useParams
   const navigate = useNavigate()
 
   return (
-    <Card className="m-4">
-      {console.log(lobbyId)}
-      <CardBody> 
-        <p className="text-left px2"> Sender: {message.userProfile.displayName}</p> 
-        <p className="text-left px2"> Time sent: {formattedDate}</p>         
-        <div className="text-center">{message.content}</div>
-        {message.userId === user.id && <CloseButton
+    <Card className=" item-card" >
+        <CardBody >
+        {message.userId === user.id && 
+        <div className="float-right" style={{
+          flexDirection: "row-reverse",
+          display: "flex",
+          alignItems: "end"
+        }}>
+        <Link
         onClick={(e)=>{
           e.preventDefault()
           deleteMessage(message.id)
@@ -24,9 +28,15 @@ export const Message = ({ message, user, messages, setMessages, lobbyId }) => {
             return getMessagesByLobbyId(lobbyId)
           })
           .then((r) => setMessages(r))
-        }}/>}
-        {user.id === message.userId && 
-        <Link to={`/lobbies/edit/${message.id}`}><button className="btn btn-primary">edit</button></Link>}
+        }}><CloseIcon></CloseIcon></Link> 
+        <Link to={`/lobbies/edit/${message.id}`}><EditIcon></EditIcon></Link>
+        </div>
+        }         
+        </CardBody>
+      <CardBody> 
+        <p className="text-left px2"><strong>{message.userProfile.displayName}</strong></p> 
+        <div className="text-center">{message.content}</div>
+        <p className="text-left px2"><i>{formattedDate}</i></p>         
       </CardBody>
     </Card>
   );

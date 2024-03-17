@@ -1,5 +1,9 @@
-body {
+#body {
   background-color: #091833; /* Your desired background color */
+}
+
+a {
+  text-decoration: none;
 }
 
 
@@ -26,12 +30,17 @@ body {
 }
 
 /* LobbyList.js card */
-.m-4{
+.item-card.card{
   background-color:#091833;
-color: #ea00d9;
+  color: #ea00d9;
 }
 .btn-btn-primary{
   background-color: #0abdc6;
+}
+
+.feather, .close-icon {
+  background-color:#091833;
+  color: #ea00d9;
 }
 
 .message-container {  
@@ -43,24 +52,3 @@ color: #ea00d9;
 }
 
 
-/* @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
-/* 
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-} */

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import '../src/style/App.css'
+import './style/App.css?v=1'
 import { BrowserRouter as Router } from 'react-router-dom';
 import ApplicationViews from "./views/ApplicationViews";
 import Header from "./views/Header";

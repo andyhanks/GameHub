@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { login } from '../../apimanagers/UserManager';
 import { Card, CardBody } from 'reactstrap';
 import UserDetails from '../User/UserDetails';
-import { redirect } from 'react-router-dom';
+import { redirect, Link } from 'react-router-dom';
 
 
 export default function Hello() {
@@ -43,6 +43,7 @@ export default function Hello() {
       <p>See if there are any games that catch your eye!</p> 
       <div><UserDetails/></div>
     </div>
+    <Link to={`/users/update/${user?.id}`}><button className="btn btn-primary">Edit My Profile</button></Link>
 
       </CardBody>
     </Card>
