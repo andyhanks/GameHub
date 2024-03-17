@@ -32,7 +32,7 @@ export default function Hello() {
   return (
   
     <Card className='m-4' >
-      <CardBody style={{backgroundColor:'#133e7c', color:'#ea00d9'}}>
+      <CardBody className='card-body' style={{backgroundColor:'#133e7c', color:'#ea00d9'}}>
     <div>
       <h1>
         

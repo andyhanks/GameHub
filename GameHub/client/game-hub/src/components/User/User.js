@@ -19,9 +19,9 @@ export const User = ({ user }) => {
       <p className="text-left px2"> {user.displayName}</p>
      
         <div className="text-center">
-        <Link to={`/users/${user.id}`}><button className="btn btn-primary">User Details</button></Link>
+        <Link to={`/users/${user.id}`}><button className="btn-btn-primary">User Details</button></Link>
        {activeUser.id === user.id && 
-        <Link to={`/users/update/${user.id}`}><button className="btn btn-primary">Edit My Profile</button></Link>}
+        <Link to={`/users/update/${user.id}`}><button className="btn-btn-primary" id="user-detail-button">Edit My Profile</button></Link>}
         </div>
       </CardBody>
     </Card>

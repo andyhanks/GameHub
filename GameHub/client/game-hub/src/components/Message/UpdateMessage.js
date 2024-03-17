@@ -18,10 +18,7 @@ export const UpdateMessage = (message) => {
     });
   },
   [])
-  // if (!editedMessage) {
-  //   return null;
-  // }
-  
+
   
   const handleSubmit = (e) => {
     e.preventDefault()

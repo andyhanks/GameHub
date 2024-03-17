@@ -14,6 +14,7 @@ a {
 
 
 
+ 
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -30,10 +31,6 @@ a {
 }
 
 /* LobbyList.js card */
-.item-card.card{
-  background-color:#091833;
-  color: #ea00d9;
-}
 .btn-btn-primary{
   background-color: #0abdc6;
 }
@@ -43,8 +40,12 @@ a {
   color: #ea00d9;
 }
 
+.item-card.card{
+  background-color:#091833;
+  color: #ea00d9;
+}
 .message-container {  
-  max-height: 90vh; 
+  max-height: 50vh; 
   overflow-y: auto; 
   position: fixed; 
   bottom: 0; 
