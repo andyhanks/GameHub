@@ -18,7 +18,7 @@ namespace GameHub.Repositories
                     cmd.CommandText = @"
                         SELECT Id, SendDate, Content, LobbyId, UserId
                         FROM Message
-                        ORDER BY SendDate";
+                        ORDER BY SendDate ";
                     var reader = cmd.ExecuteReader();
                     var messages = new List<Message>();
                     while (reader.Read())
@@ -181,7 +181,8 @@ namespace GameHub.Repositories
                                     FROM Message m
                                     LEFT Join UserProfile u
                                     ON m.UserId = u.id
-                                    Where m.LobbyId = @id                                 ";
+                                    Where m.LobbyId = @id                                 
+                                    ORDER BY SendDate Desc";
                     cmd.Parameters.AddWithValue("@id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
                

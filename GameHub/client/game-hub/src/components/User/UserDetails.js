@@ -23,7 +23,7 @@ export const UserDetails = () => {
 
     return (
         <>
-        <Card>
+        <Card className="item-card">
            {/* <Link to={`/users/`}><button className="btn btn-primary">Back to User List</button></Link>  */}
             
             <div className="text-center">
@@ -48,7 +48,11 @@ export const UserDetails = () => {
         </div>
         <br />
         <div className="row justify-content-center">
-           <i className="row justify-content-center">{user.bio}</i>
+          Bio: <i className="row justify-content-center">{user.bio}</i>
+        </div>
+        <br/>
+        <div className="row justify-content-center">
+        Likes To Play: <i className="row justify-content-center">{user.preferredGames}</i>
         </div>
         <br />
         <br />

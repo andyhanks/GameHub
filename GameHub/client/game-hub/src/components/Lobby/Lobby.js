@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 export const Lobby = ({ lobby }) => {
   return (
-    <Card className="m-4">
-        <CardBody>
+    <Card className="item-card">
+        <CardBody className="card-body">
       {/* <CardImg top src={lobby.imageLocation}  alt="avatar_pic" /> */}
       {/* <p className="text-left px-2">Game Id: {lobby.id}</p> */}
       <p className="text-left px-2"> {lobby.title}</p>

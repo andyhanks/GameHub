@@ -23,6 +23,12 @@ namespace GameHub.Controllers
             return Ok(_messageRepository.GetAll());
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_messageRepository.GetMessageById(id));
+        }
+
         [HttpPost]
         public IActionResult Post(Message message)
         {
@@ -62,7 +68,7 @@ namespace GameHub.Controllers
             return NoContent();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("lobbies/{id}")]
         public IActionResult GetByLobbyId(int id)
         {
             return Ok(_messageRepository.GetMessageByLobbyId(id));

@@ -1,5 +1,6 @@
 using GameHub.Controllers;
 using GameHub.Repositories;
+//using.GameHub.SocketServer;
 
 namespace GameHub
 {
@@ -27,6 +28,7 @@ namespace GameHub
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.UseCors("AllowAll");
                 app.UseCors(options =>
                 {
                     options.AllowAnyOrigin();
@@ -42,7 +44,24 @@ namespace GameHub
 
             app.MapControllers();
 
-                     
+
+
+
+            // //Socket Stuff here!
+
+            Thread socketThread = new Thread(() => { 
+            SocketServer server = new SocketServer();
+                server.Start();
+            });
+            socketThread.Start();
+           // SocketServer server = new SocketServer();
+           // server.Start();
+
+           // Keep the server running until a key is pressed
+           //Console.WriteLine("Press any key to stop the server...");
+           // Console.ReadKey();
+           // server.Stop();
+
 
             app.Run();
         }

@@ -37,7 +37,7 @@ export default function Register({setIsLoggedIn}) {
  };
 
   return (
-    <Form onSubmit={registerClick}>
+    <Form onSubmit={registerClick} style={{color:'#ea00d9'}}>
       <fieldset>
         <FormGroup>
           <Label htmlFor="firstName">First Name</Label>

@@ -17,6 +17,12 @@ export const getAllMessages = () => {
 };
 
 export const getMessagesByLobbyId = (id) => {
+    return fetch(`${baseUrl}/lobbies/${id}`) 
+    .then((res) => res.json()
+    );
+}
+
+export const getMessageById = (id) => {
     return fetch(`${baseUrl}/${id}`) 
     .then((res) => res.json()
     );
