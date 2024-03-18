@@ -11,7 +11,7 @@ export const User = ({ user }) => {
  
 
   return (
-    <Card style={{width: "50%"}} className="item-card">
+    <Card style={{width: "200px"}} className="item-card">
         <CardBody >
       <CardImg
       top src={user.imageLocation}  alt="avatar_pic" />

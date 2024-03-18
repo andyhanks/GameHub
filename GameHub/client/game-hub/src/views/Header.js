@@ -30,10 +30,10 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
                   <NavLink tag={RRNavLink} to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/users">User Manager</NavLink>
+                  <NavLink tag={RRNavLink} to="/users">Players</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/lobbies">Game Manager</NavLink>
+                  <NavLink tag={RRNavLink} to="/lobbies">Game Hub</NavLink>
                 </NavItem>
                 <NavItem>
                   <a aria-current="page" className="nav-link"

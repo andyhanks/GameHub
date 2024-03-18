@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GameHub")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3be7c71deb45018e0a34e937fd85bd8b0668f295")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc4676e2d6df0b2686b8eca9e77f9b1424144d45")]
 [assembly: System.Reflection.AssemblyProductAttribute("GameHub")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GameHub")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
