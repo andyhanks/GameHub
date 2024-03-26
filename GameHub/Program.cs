@@ -1,6 +1,6 @@
 using GameHub.Controllers;
 using GameHub.Repositories;
-//using.GameHub.SocketServer;
+using GameHub.Hubs;
 
 namespace GameHub
 {
@@ -20,6 +20,7 @@ namespace GameHub
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -28,13 +29,12 @@ namespace GameHub
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-                app.UseCors("AllowAll");
-                app.UseCors(options =>
-                {
-                    options.AllowAnyOrigin();
-                    options.AllowAnyMethod();
-                    options.AllowAnyHeader();
-                });
+                //app.UseCors("AllowAll");
+                app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
             }
 
             app.UseHttpsRedirection();
@@ -43,24 +43,11 @@ namespace GameHub
 
 
             app.MapControllers();
+            app.MapHub<ChatHub>("/gameHub");
 
 
 
 
-            // //Socket Stuff here!
-
-            Thread socketThread = new Thread(() => { 
-            SocketServer server = new SocketServer();
-                server.Start();
-            });
-            socketThread.Start();
-           // SocketServer server = new SocketServer();
-           // server.Start();
-
-           // Keep the server running until a key is pressed
-           //Console.WriteLine("Press any key to stop the server...");
-           // Console.ReadKey();
-           // server.Stop();
 
 
             app.Run();

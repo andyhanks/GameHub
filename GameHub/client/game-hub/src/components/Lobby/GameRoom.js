@@ -5,7 +5,7 @@ import { Button, Card, Form, FormGroup, Input, Label } from "reactstrap";
 import { addMessage, getAllMessages, getMessagesByLobbyId } from "../../apimanagers/MessageManager";
 import { Message } from "../Message/Message";
 import MessageList from "../Message/MessageList";
-
+import * as signalR from '@microsoft/signalr'
 
 
 export const GameRoom = () => {
@@ -18,9 +18,8 @@ export const GameRoom = () => {
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState({});
     const [messages, setMessages] = useState([]);
-    const [ws, setWs] = useState(null);
     const {id} = useParams();
-    const connection = useRef(null)
+    const [conn, setConn] = useState();
 
 
 
@@ -36,44 +35,22 @@ export const GameRoom = () => {
     };
     
       useEffect(() => {
-        // Establish WebSocket connection
-        const socket = new WebSocket('ws://localhost:8888');
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:5001/gameHub")
+        .withAutomaticReconnect()
+        .build();
 
-        // // Event handler for when the connection is opened
-        socket.addEventListener('open', function (event) {
-            console.log("Websocket connection opened");
-            // Send a message to the server
-            socket.send("Websocket connection opened");
+        connection.on("ReceiveMessage", function (user, m) {
+          console.log(`${user}: ${m}`)
+          getMessages()
         });
 
-        
-
-        // console.log(socket)
-        // socket.onopen = () => {
-        //   console.log('WebSocket connection established');
-        //   // You can interact with the WebSocket here
-        //   socket.send(`${user.displayName} has joined the room`);
-        // };
-
-        // // Event handler for incoming messages
-        // socket.addEventListener('message', function (event) {
-        //     console.log('Message from server:', event.data);
-        // });
-
-        // Event handler for errors
-        // socket.addEventListener('error', function (event) {
-        //     console.error('Socket error:', event);
-        // });
-
-        // Event handler for when the connection is closed
-        socket.addEventListener('close', function (event) {
-            console.log("Websocket connection closed");
+        connection.start().then(() => {
+          getMessages();
+        }).catch((err) => {
+          return console.error(err.toString());
         });
-
-        connection.current = socket
-        getMessages();
-        
-        // return () => connection.close()
+        setConn(connection);
       }, []); 
 
   
@@ -85,18 +62,21 @@ export const GameRoom = () => {
       }
 
       const messageSubmit = (e) => { 
+
         e.preventDefault() 
-        // console.log(defaultMessage, message)
         const newMessageEntry = { ...message }
-        setMessage(defaultMessage)
-        // ws.send('message sent')
         document.getElementById('content').value = ''
         newMessageEntry.sendDate = new Date()
-        addMessage(newMessageEntry)
-        .then(getMessages)
-      
+        conn.invoke("sendMessage", user.displayName, newMessageEntry.content)
+        .then(() => {
+          addMessage(newMessageEntry)
+          .then(getMessages)
+        })
+        .catch((err) => {
+          return console.error(err.toString());
+        });
         
-      } //fill this!!!
+      } 
         
         
         
@@ -121,7 +101,6 @@ export const GameRoom = () => {
             <Label for="content"></Label>
             <Input id="content" type="textarea" 
                 onChange={e => {
-                    // ws.send('typing')
                     setMessage({
                       userId: user.id,
                       lobbyId: parseInt(id),
